@@ -338,5 +338,8 @@
 (deftest namespace-keywords
   (is (eq "hello/world" (jsv! "(ns hello) ::world"))))
 
+(deftest nth-test
+  (is (= 1 (jsv! "(nth [1 2 3] 0)"))))
+
 (defn init []
   (cljs.test/run-tests 'cherry.compiler-test))

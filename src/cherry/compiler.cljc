@@ -173,13 +173,14 @@
                       'this-as macros/core-this-as
                       'unchecked-get macros/core-unchecked-get
                       'unchecked-set macros/core-unchecked-set
+                      'nth macros/core-unchecked-get
                       'defprotocol protocols/core-defprotocol
                       'extend-type protocols/core-extend-type
                       'deftype deftype/core-deftype
                       'defn core-defn
                       'defn- core-defn})
 
-(def core-config {:vars '#{assoc! dissoc! println nth
+(def core-config {:vars '#{assoc! dissoc! println
                            map str}})
 
 (def core-vars (conj (:vars core-config) 'goog_typeOf))
