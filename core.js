@@ -361,6 +361,9 @@ export function ffirst(coll) {
 }
 
 export function rest(coll) {
+  if (coll instanceof Cons) {
+    return coll.tail;
+  }
   return new LazyIterable(function* () {
     let first = true;
     for (const x of iterable(coll)) {
@@ -437,11 +440,20 @@ class LazyIterable {
   }
 }
 
+class Cons {
+  constructor(head, tail) {
+    this.head = head;
+    this.tail = tail;
+  }
+  [IIterable] = true;
+  *[IIterable__iterator]() {
+    yield this.head;
+    yield* this.tail;
+  }
+}
+
 export function cons(x, coll) {
-  return new LazyIterable(function* () {
-    yield x;
-    yield* iterable(coll);
-  });
+  return new Cons(x, iterable(coll));
 }
 
 export function map(f, ...colls) {
