@@ -633,7 +633,12 @@
   (is (eq #{2 3} (jsv! '(vec (rest #{1 2 3})))))
   (is (eq #js [#js [3 4]] (jsv! '(vec (rest (js/Map. [[1 2] [3 4]]))))))
   (is (eq '("b" "c") (jsv! '(vec (rest "abc")))))
-  (is (= 1 (jsv! '(first (rest (range))))) "infinite rest"))
+  (is (= 1 (jsv! '(first (rest (range))))) "infinite rest")
+  (is (eq [2 3] (jsv! '(let [a [1 2 3]
+                             b (rest a)]
+                         (vec b)
+                         (vec b))))
+      "iterate over lazy iterable twice"))
 
 
 (deftest last-test

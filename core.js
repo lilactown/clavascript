@@ -430,10 +430,20 @@ export function reduce(f, arg1, arg2) {
 class LazyIterable {
   constructor(gen) {
     this.gen = gen;
+    this.cache = null;
   }
   [IIterable] = true;
-  [IIterable__iterator]() {
-    return this.gen();
+  *[IIterable__iterator]() {
+    if (this.cache) yield* this.cache;
+    else {
+      let cache = [];
+      for (const x of this.gen()) {
+        cache.push(x);
+        yield x;
+      }
+      this.cache = cache;
+      this.gen = null;
+    }
   }
 }
 
